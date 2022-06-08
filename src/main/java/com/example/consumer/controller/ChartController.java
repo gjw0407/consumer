@@ -28,9 +28,6 @@ public class ChartController {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
 
-        sample.setData(temp);
-        sample.setDate(dtf.format(now));
-
-        return sample;
+        return 1;
     }
 }
