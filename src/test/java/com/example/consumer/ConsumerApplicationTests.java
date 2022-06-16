@@ -1,6 +1,6 @@
 package com.example.consumer;
 
-import com.example.consumer.chartdata.ChartData;
+import com.example.consumer.entity.ChartData;
 import com.example.consumer.dao.ChartDao;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

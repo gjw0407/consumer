@@ -1,4 +1,4 @@
-package com.example.consumer.chartdata;
+package com.example.consumer.entity;
 
 import lombok.*;
 

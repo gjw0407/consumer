@@ -1,6 +1,6 @@
 package com.example.consumer.controller;
 
-import com.example.consumer.chartdata.ChartData;
+import com.example.consumer.entity.ChartData;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
