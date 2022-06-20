@@ -10,9 +10,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/article?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/twitterdashboard?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-    password: ssafy
+    password: root
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
