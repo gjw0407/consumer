@@ -87,8 +87,10 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> resultMap = new HashMap<>();
 
         try {
+            User user = userDao.findByEmail(userDto.getEmail());
+            log.info("{}", user);
             // 회원이 존재
-            if (userDao.findByEmail(userDto.getEmail()) == null) {
+            if (user != null) {
                 log.error("가입 실패 : 회원이 이미 존재합니다.");
                 resultMap.put("message", "회원이 이미 존재합니다.");
                 status = HttpStatus.UNAUTHORIZED;

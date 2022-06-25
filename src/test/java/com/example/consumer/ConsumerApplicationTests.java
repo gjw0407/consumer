@@ -1,7 +1,7 @@
 package com.example.consumer;
 
-import com.example.consumer.entity.ChartData;
-import com.example.consumer.dao.ChartDao;
+import com.example.consumer.controller.ChartController;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,26 +9,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class ConsumerApplicationTests {
+    @Autowired
+    ChartController chartController;
 
-	@Autowired
-	private ChartDao chartDao;
+    @Test
+    public void test() {
+        chartController.addChart("random", "20220202", "20220303", "day", "pie");
 
-	@Test
-	void contextLoads() {
-	}
+        Assertions.assertEquals(4, 4);
 
-	@Test
-	void saveData() {
-		ChartData chartData = new ChartData(1, 1, "A", "20220608", 5);
-		ChartData chartData1 = new ChartData(2, 1, "B", "20220608", 2);
-		ChartData chartData2 = new ChartData(3, 2, "A", "20220609", 14);
-		ChartData chartData3 = new ChartData(4, 2, "B", "20220609", 8);
-
-		System.out.println(chartDao.save(chartData));
-		System.out.println(chartDao.save(chartData1));
-		System.out.println(chartDao.save(chartData2));
-		System.out.println(chartDao.save(chartData3));
-
-		System.out.println(chartDao.findAll());
-	}
+    }
 }
+
