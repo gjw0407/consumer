@@ -98,6 +98,8 @@ public class UserServiceImpl implements UserService {
             }
 
             // Dto to entity
+            String encodePassword = passwordEncoder.encode(userDto.getPassword());
+            userDto.setPassword(encodePassword);
             User userET = userDto.toEntity();
             userDao.save(userET);
             resultMap.put("message", "가입 성공");
