@@ -7,9 +7,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -18,7 +20,13 @@ import java.util.Map;
 public class ChartController {
     private final ChartService chartService;
 
-    @PostMapping("/add-chart/")
+//    @GetMapping("/chart/")
+//    public ResponseEntity<Map<String, Object>> addChart() {
+//        return metadata chart
+//    }
+//}
+
+    @PostMapping("/chart/")
     public ResponseEntity<Map<String, Object>> addChart(@RequestParam String keyword,
                                                            @RequestParam String startdate,
                                                            @RequestParam String enddate,
@@ -41,6 +49,8 @@ public class ChartController {
         chartDto.setPeriod_sec(period_sec);
         chartDto.setStart_date(startdate);
         chartDto.setEnd_date(enddate);
+
+//        keywordService.addKeyword(keywordDto);
 
         return chartService.addChart(chartDto);
     }
