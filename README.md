@@ -12,3 +12,4 @@ Interestingly, this server is responsible for CRUD actions of new charts.
 Obviously, chart data is requested from vue component to Twitter API Server [API Server](https://github.com/jh27kim/producer)
 But chart metadata is processed in this server. Since calling Twitter API is a heavy task, we wanted to separate from any other functionalities. 
 In this way, we can just replicate Twitter API server alone in order to meet higher demands. 
+4. Authentifiaction
