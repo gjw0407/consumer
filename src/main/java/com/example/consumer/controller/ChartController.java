@@ -1,7 +1,9 @@
 package com.example.consumer.controller;
 
 import com.example.consumer.model.ChartDto;
+import com.example.consumer.model.KeywordDto;
 import com.example.consumer.model.UserDto;
+import com.example.consumer.service.KeywordService;
 import com.example.consumer.service.chart.ChartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,7 @@ import java.util.Map;
 @Controller
 public class ChartController {
     private final ChartService chartService;
+    private final KeywordService keywordService;
 
 //    @GetMapping("/chart/")
 //    public ResponseEntity<Map<String, Object>> addChart() {
@@ -50,7 +53,10 @@ public class ChartController {
         chartDto.setStart_date(startdate);
         chartDto.setEnd_date(enddate);
 
-//        keywordService.addKeyword(keywordDto);
+        KeywordDto keywordDto = new KeywordDto();
+        keywordDto.setKeyword(keyword);
+
+        keywordService.addKeyword(keywordDto);
 
         return chartService.addChart(chartDto);
     }
