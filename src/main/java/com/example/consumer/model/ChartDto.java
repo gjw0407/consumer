@@ -13,17 +13,17 @@ import lombok.NoArgsConstructor;
 public class ChartDto {
     private int keywordId;
     private int userId;
-    private int period_sec;
-    private String start_date;
-    private String end_date;
+    private int periodSec;
+    private String startDate;
+    private String endDate;
 
     public Chart toEntity() {
         return Chart.builder()
                 .keywordId(keywordId)
                 .userId(userId)
-                .period_sec(period_sec)
-                .start_date(start_date)
-                .end_date(end_date)
+                .periodSec(periodSec)
+                .startDate(startDate)
+                .endDate(endDate)
                 .build();
     }
 

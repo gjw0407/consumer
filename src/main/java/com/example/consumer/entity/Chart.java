@@ -14,24 +14,24 @@ import javax.persistence.Id;
 public class Chart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int user_chart_historyId;
+    private int userChartHistoryId;
     private int userId;
     private int keywordId;
-    private int period_sec;
-    private String start_date;
-    private String end_date;
+    private int periodSec;
+    private String startDate;
+    private String endDate;
 
     @Builder
     public Chart(int keywordId,
                  int userId,
-                 int period_sec,
-                 String start_date,
-                 String end_date) {
+                 int periodSec,
+                 String startDate,
+                 String endDate) {
         this.keywordId = keywordId;
         this.userId = userId;
-        this.period_sec = period_sec;
-        this.start_date = start_date;
-        this.end_date = end_date;
+        this.periodSec = periodSec;
+        this.startDate = startDate;
+        this.endDate = endDate;
 
     }
 }

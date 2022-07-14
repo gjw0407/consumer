@@ -31,32 +31,29 @@ public class ChartController {
 
     @PostMapping("/chart/")
     public ResponseEntity<Map<String, Object>> addChart(@RequestParam String keyword,
-                                                           @RequestParam String startdate,
-                                                           @RequestParam String enddate,
-                                                           @RequestParam String period,
-                                                           @RequestParam String type) {
-
-        System.out.println(keyword + startdate + enddate + period + type);
+                                                           @RequestParam String startDate,
+                                                           @RequestParam String endDate,
+                                                           @RequestParam int period,
+                                                           @RequestParam String chartType) {
 
         // TODO Get user ID FROM SEESION
-
         int userId = 1; // TODO GET THIS FROM DB USER ID
-        int keywordId = 1; // TODO GET THIS FROM DB KEYWORD
-        int period_sec = 10000; // TODO Change YYYYMMDD HH:MM:SS TO SECONDS
+
+        KeywordDto keywordDto = new KeywordDto();
+        keywordDto.setKeyword(keyword);
+
+        int keywordId = keywordService.addKeyword(keywordDto);
 
         log.info("Regiseter - 호출");
 
         ChartDto chartDto = new ChartDto();
         chartDto.setKeywordId(keywordId);
         chartDto.setUserId(userId);
-        chartDto.setPeriod_sec(period_sec);
-        chartDto.setStart_date(startdate);
-        chartDto.setEnd_date(enddate);
+        chartDto.setPeriodSec(period);
+        chartDto.setStartDate(startDate);
+        chartDto.setEndDate(endDate);
 
-        KeywordDto keywordDto = new KeywordDto();
-        keywordDto.setKeyword(keyword);
-
-        keywordService.addKeyword(keywordDto);
+        System.out.println(keyword + startDate + endDate + period + chartType);
 
         return chartService.addChart(chartDto);
     }
