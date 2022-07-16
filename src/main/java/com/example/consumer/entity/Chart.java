@@ -11,6 +11,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name="user_chart_history")
+@ToString
 public class Chart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

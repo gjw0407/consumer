@@ -1,5 +1,6 @@
 package com.example.consumer.controller;
 
+import com.example.consumer.entity.Chart;
 import com.example.consumer.model.ChartDto;
 import com.example.consumer.model.KeywordDto;
 import com.example.consumer.model.UserDto;
@@ -7,34 +8,38 @@ import com.example.consumer.service.KeywordService;
 import com.example.consumer.service.chart.ChartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
 @Slf4j
-@Controller
+@RestController
+@CrossOrigin(origins = "http://localhost:8080")
 public class ChartController {
     private final ChartService chartService;
     private final KeywordService keywordService;
 
-//    @GetMapping("/chart/")
-//    public ResponseEntity<Map<String, Object>> addChart() {
-//        return metadata chart
-//    }
-//}
+    @GetMapping("/chart/load")
+    public List<ChartDto> loadChart() {
+        String email = "asd@asd.cm";
+        return chartService.loadChart(email);
+
+//        System.out.println(chartList.toString());
+
+    }
 
     @PostMapping("/chart/")
     public ResponseEntity<Map<String, Object>> addChart(@RequestParam String keyword,
-                                                           @RequestParam String startDate,
-                                                           @RequestParam String endDate,
-                                                           @RequestParam int period,
-                                                           @RequestParam String chartType) {
+                                @RequestParam String startDate,
+                                @RequestParam String endDate,
+                                @RequestParam int period,
+                                @RequestParam String chartType) {
 
         // TODO Get user ID FROM SEESION
         int userId = 1; // TODO GET THIS FROM DB USER ID
