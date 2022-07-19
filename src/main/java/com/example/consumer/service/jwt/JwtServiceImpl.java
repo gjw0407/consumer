@@ -38,6 +38,7 @@ public class JwtServiceImpl implements JwtService {
     // 전달 받은 토큰이 제대로 생성된것이니 확인 하고 문제가 있다면 RuntimeException을 발생.
     @Override
     public void checkValid(String jwt) {
+
         Jwts.parser().setSigningKey(signature.getBytes()).parseClaimsJws(jwt);
     }
 

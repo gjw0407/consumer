@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,15 +21,17 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/web")
-@CrossOrigin(origins = {"*"})
+@CrossOrigin(origins="*", allowedHeaders = "*")
 public class UserController {
 
     private final UserService userService;
-
     private final JwtService jwtService;
+    final String HOST = "http://localhost:8080";
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String, Object>> webRegister(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<Map<String, Object>> webRegister(@RequestParam String email,
+                                                           @RequestParam String password,
+                                                           HttpServletResponse response) {
         log.info("Regiseter - 호출");
 
         UserDto userDto = new UserDto();
@@ -41,12 +45,17 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> webLogin(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<Map<String, Object>> webLogin(@RequestParam String email,
+                                                        @RequestParam String password,
+                                                        @RequestParam(defaultValue = "/") String redirectURL,
+                                                        HttpServletResponse response) throws IOException {
         log.info("Login - 호출");
 
         UserDto userDto = new UserDto();
         userDto.setEmail(email);
         userDto.setPassword(password);
+
+//        response.sendRedirect(HOST+redirectURL); CORS Error
 
         return userService.login(userDto);
     }
