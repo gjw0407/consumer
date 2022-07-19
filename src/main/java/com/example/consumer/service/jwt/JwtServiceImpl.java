@@ -10,7 +10,7 @@ import java.util.Map;
 @Component
 public class JwtServiceImpl implements JwtService {
 
-    private String signature = "VUETOKEN";
+    private String signature = "VUETOKENVUETOKENVUETOKENVUETOKENVUETOKENVUETOKEN";
     private Long expireMin = 10L;
 
     // 로그인 성공시 사용자 정보를 기반으로 JWTToken을 생성하여 반환.

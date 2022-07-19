@@ -65,11 +65,11 @@ public class UserServiceImpl implements UserService {
             // jwt.io에서 확인
             // 로그인 성공했다면 토큰을 생성한다
             String token = jwtService.create(userDto);
-            log.trace("로그인 토큰정보 : {}", token);
+            log.info("로그인 토큰정보 : {}", token);
             // 토큰 정보는 response의 헤더로 보내고 나머지는 Map에 담는다
             resultMap.put("auth-token", token);
             resultMap.put("user-email", userDto.getEmail());
-            log.trace("로그인 성공");
+            log.info("로그인 성공");
             status = HttpStatus.ACCEPTED;
         } catch (Exception e) {
             log.error("로그인 실패 : {}", e);
