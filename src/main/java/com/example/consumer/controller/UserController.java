@@ -21,7 +21,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/web")
-@CrossOrigin(origins="*", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 
     private final UserService userService;
@@ -48,12 +48,12 @@ public class UserController {
                                                         @RequestParam(defaultValue = "/") String redirectURL,
                                                         HttpServletResponse response) throws IOException {
         log.info("Login - 호출");
+        log.info(redirectURL);
 
         UserDto userDto = new UserDto();
         userDto.setEmail(email);
         userDto.setPassword(password);
 
-//        response.sendRedirect(HOST+redirectURL); CORS Error
 
         return userService.login(userDto);
     }
