@@ -25,8 +25,6 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
-    private final JwtService jwtService;
-    final String HOST = "http://localhost:8080";
 
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> webRegister(@RequestParam String email,

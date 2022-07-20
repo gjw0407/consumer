@@ -10,7 +10,7 @@ public interface JwtService {
     String create(UserDto userDto);
 
     // 전달 받은 토큰이 제대로 생성된것이니 확인 하고 문제가 있다면 RuntimeException을 발생.
-    void checkValid(String jwt);
+    boolean checkValid(String jwt);
 
     // JWT Token을 분석해서 필요한 정보를 반환.
     Map<String, Object> get(String jwt);

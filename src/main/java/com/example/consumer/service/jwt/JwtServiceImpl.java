@@ -2,12 +2,14 @@ package com.example.consumer.service.jwt;
 
 import com.example.consumer.model.UserDto;
 import io.jsonwebtoken.*;
-import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.Map;
 
-@Component
+@Service
+@Slf4j
 public class JwtServiceImpl implements JwtService {
 
     private String signature = "VUETOKENVUETOKENVUETOKENVUETOKENVUETOKENVUETOKEN";
@@ -37,10 +39,27 @@ public class JwtServiceImpl implements JwtService {
 
     // 전달 받은 토큰이 제대로 생성된것이니 확인 하고 문제가 있다면 RuntimeException을 발생.
     @Override
-    public void checkValid(String jwt) {
-
+    public boolean checkValid(String jwt) {
+        try{
         Jwts.parser().setSigningKey(signature.getBytes()).parseClaimsJws(jwt);
-    }
+        return true;
+        } catch(io.jsonwebtoken.security.SecurityException | MalformedJwtException e)
+        {   log.info("잘못된 JWT 서명입니다.");
+            return false;
+        } catch(ExpiredJwtException e)
+        {   log.info("만료된 JWT 토큰입니다.");
+            return false;
+        } catch(UnsupportedJwtException e)
+        {   log.info("지원되지 않는 JWT 토큰입니다.");
+            return false;
+        } catch(IllegalArgumentException e)
+        {   log.info("JWT 토큰이 잘못되었습니다.");
+            return false;
+        } catch (NullPointerException ex){
+            log.error("JWT Refresh Token 없습니다.");
+            return false;
+        }
+}
 
     // JWT Token을 분석해서 필요한 정보를 반환.
     @Override
