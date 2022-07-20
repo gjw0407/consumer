@@ -40,15 +40,23 @@ public class JwtInterceptor implements HandlerInterceptor {
                 // 유효한 토큰이면 진행, 그렇지 않으면 예외를 발생시킨다.
                 log.info("Checking token authenticity");
                 if (jwtService.checkValid(token)) {
-                    response.sendRedirect("http://localhost:8080" + requestURI);
+                    log.info("after jwtservice check");
                     return true;
                 }
+                else {
+                    log.info("Token not valid");
+                    // token expired
+                    response.sendRedirect("http://localhost:8080/");
+                    return false;
+                }
+            }
+            else {
+                log.info("Token does not exist");
+                response.sendRedirect("http://localhost:8080/login");
+                return false;
             }
 
-            log.info("Token not valid");
-            response.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
-            response.sendRedirect("http://localhost:8080");
-            return false;
+
         }
     }
 }

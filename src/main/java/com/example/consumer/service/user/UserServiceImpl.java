@@ -113,4 +113,10 @@ public class UserServiceImpl implements UserService {
 
         return new ResponseEntity<>(resultMap, status);
     }
+
+    @Override
+    public int getUserId(String email) {
+        User user = userDao.findByEmail(email);
+        return user.getUserId();
+    }
 }

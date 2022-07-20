@@ -8,4 +8,5 @@ import java.util.Map;
 public interface UserService {
     ResponseEntity<Map<String, Object>> login(UserDto user);
     ResponseEntity<Map<String, Object>> register(UserDto user);
+    int getUserId(String email);
 }
