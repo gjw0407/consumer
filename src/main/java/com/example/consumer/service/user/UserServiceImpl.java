@@ -48,6 +48,8 @@ public class UserServiceImpl implements UserService {
 
             // check password
             if (!passwordEncoder.matches(userDto.getPassword(), encodedDbPassword)) {
+            	
+            	log.error("비번" + passwordEncoder.encode("1234"));
                 log.error("로그인 실패 : 비밀번호가 일치하지 않습니다.");
                 resultMap.put("message", "비밀번호가 일치하지 않습니다");
                 status = HttpStatus.UNAUTHORIZED;

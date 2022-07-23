@@ -14,4 +14,7 @@ public interface JwtService {
 
     // JWT Token을 분석해서 필요한 정보를 반환.
     Map<String, Object> get(String jwt);
+    
+    // JWT에 저장된 Email 반환
+    String getEmail(String jwt);
 }

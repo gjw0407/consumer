@@ -14,9 +14,6 @@ class ConsumerApplicationTests {
 
     @Test
     public void test() {
-        chartController.addChart("random", "20220202", "20220303", "day", "pie");
-
-        Assertions.assertEquals(4, 4);
 
     }
 }

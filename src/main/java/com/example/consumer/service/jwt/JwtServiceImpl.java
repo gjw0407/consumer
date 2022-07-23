@@ -1,36 +1,51 @@
 package com.example.consumer.service.jwt;
 
-import com.example.consumer.model.UserDto;
-import io.jsonwebtoken.*;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Date;
 import java.util.Map;
+
+import org.springframework.data.util.Pair;
+import org.springframework.stereotype.Service;
+
+import com.example.consumer.model.UserDto;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwsHeader;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
 public class JwtServiceImpl implements JwtService {
-
-    private String signature = "VUETOKENVUETOKENVUETOKENVUETOKENVUETOKENVUETOKEN";
+	
     private Long expireMin = 10L;
 
     // 로그인 성공시 사용자 정보를 기반으로 JWTToken을 생성하여 반환.
     @Override
     public String create(UserDto userDto) {
         JwtBuilder jwtBuilder = Jwts.builder();
+        Pair<String, Key> key = JwtKey.getRandomKey();
 
-        // Header 설정
-        jwtBuilder.setHeaderParam("typ", "JWT"); // 토큰의 타입으로 고정 값.
-
+        // Header 설정 : alg(알고리즘종류), kid
+        jwtBuilder.setHeaderParam("typ", "JWT")
+        		.setHeaderParam(JwsHeader.KEY_ID, key.getFirst()); 
+        
         // Payload 설정
-        jwtBuilder.setSubject("로그인토큰") // 토큰의 제목 설정
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * expireMin)) // 유효기간 설정
-                .claim("user", userDto).claim("greeting", "환영합니다. ");
-//				+ userDto.getUser_name()); // 담고 싶은 정보 설정.
+        Date now = new Date();
+        jwtBuilder.setSubject(userDto.getEmail()) // claim에도, subject에도 있는 email 이유??
+        		.setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + 1000 * 60 * expireMin)) // 유효기간 설정
+                .claim("email", userDto.getEmail()); // 클레임 : user email
 
         // signature 설정
-        jwtBuilder.signWith(SignatureAlgorithm.HS256, signature.getBytes());
+        jwtBuilder.signWith(key.getSecond()); // 어디쓰이는 지
 
         // 마지막 직렬화 처리
         String jwt = jwtBuilder.compact();
@@ -41,7 +56,9 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public boolean checkValid(String jwt) {
         try{
-        Jwts.parser().setSigningKey(signature.getBytes()).parseClaimsJws(jwt);
+        Jwts.parserBuilder()
+			.setSigningKeyResolver(SigningKeyResolver.instance)
+			.build().parseClaimsJws(jwt);
         return true;
         } catch(io.jsonwebtoken.security.SecurityException | MalformedJwtException e)
         {   log.info("잘못된 JWT 서명입니다.");
@@ -65,14 +82,25 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public Map<String, Object> get(String jwt) {
         Jws<Claims> claims = null;
-
         try {
-            claims = Jwts.parser().setSigningKey(signature.getBytes()).parseClaimsJws(jwt);
+        	claims = Jwts.parserBuilder()
+	    			.setSigningKeyResolver(SigningKeyResolver.instance)
+	    			.build().parseClaimsJws(jwt);
         } catch (final Exception e) {
             throw new RuntimeException();
         }
 
         // Claims는 Map의 구현체이다.
         return claims.getBody();
+    }
+    
+    @Override
+    public String getEmail(String token) {
+    	return Jwts.parserBuilder()
+    			.setSigningKeyResolver(SigningKeyResolver.instance)
+    			.build()
+    			.parseClaimsJws(token)
+    			.getBody()
+    			.getSubject();
     }
 }

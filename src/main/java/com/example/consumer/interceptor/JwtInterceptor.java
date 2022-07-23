@@ -1,5 +1,6 @@
 package com.example.consumer.interceptor;
 
+import com.example.consumer.dao.UserDao;
 import com.example.consumer.service.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 public class JwtInterceptor implements HandlerInterceptor {
     @Autowired
     private JwtService jwtService;
-
+    
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
@@ -40,7 +41,6 @@ public class JwtInterceptor implements HandlerInterceptor {
                 // 유효한 토큰이면 진행, 그렇지 않으면 예외를 발생시킨다.
                 log.info("Checking token authenticity");
                 if (jwtService.checkValid(token)) {
-                    log.info("after jwtservice check");
                     return true;
                 }
                 else {
