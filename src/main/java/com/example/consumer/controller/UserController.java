@@ -44,16 +44,12 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> webLogin(@RequestParam String email,
-                                                        @RequestParam String password,
-                                                        @RequestParam(defaultValue = "/") String redirectURL,
-                                                        HttpServletResponse response) throws IOException {
+                                                        @RequestParam String password) {
         log.info("Login - 호출");
-        log.info(redirectURL);
 
         UserDto userDto = new UserDto();
         userDto.setEmail(email);
         userDto.setPassword(password);
-
 
         return userService.login(userDto);
     }
