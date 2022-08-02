@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.example.consumer.model.ChartDtoKeyword;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,7 @@ public class ChartController {
     private final JwtService jwtService;
 
     @GetMapping("/chart/load")
-    public List<ChartDto> loadChart(HttpServletRequest request) {
+    public List<ChartDtoKeyword> loadChart(HttpServletRequest request) {
     	String email = jwtService.getEmail(request.getHeader("Access-Token"));
         log.info("loading chart controller");
 

@@ -10,5 +10,7 @@ import java.util.Optional;
 @Repository
 public interface KeywordDao extends JpaRepository<Keyword, Integer> {
     Optional<Keyword> findByKeyword(String keyword);
+    Keyword findById(int keywordId);
+
 }
 

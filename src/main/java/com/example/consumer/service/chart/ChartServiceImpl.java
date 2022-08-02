@@ -1,10 +1,12 @@
 package com.example.consumer.service.chart;
 
 import com.example.consumer.dao.ChartDao;
+import com.example.consumer.dao.KeywordDao;
 import com.example.consumer.dao.UserDao;
 import com.example.consumer.entity.Chart;
 import com.example.consumer.entity.User;
 import com.example.consumer.model.ChartDto;
+import com.example.consumer.model.ChartDtoKeyword;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import java.util.Map;
 public class ChartServiceImpl implements ChartService{
     private final ChartDao chartDao;
     private final UserDao userDao;
+    private final KeywordDao keywordDao;
 
     @Override
     public ResponseEntity<Map<String, Object>> addChart(ChartDto chartDto) {
@@ -31,22 +34,26 @@ public class ChartServiceImpl implements ChartService{
     }
 
     @Override
-    public List<ChartDto> loadChart(String email) {
+    public List<ChartDtoKeyword> loadChart(String email) {
         User user = userDao.findByEmail(email);
         int userId = user.getUserId();
         List<Chart> chartList = chartDao.findAllByUserId(userId);
-        List<ChartDto> chartDtoList = new ArrayList<>();
+        List<ChartDtoKeyword> chartDtoKeywordList = new ArrayList<>();
+
+        // ChartDtoKeyword
         chartList.stream().forEach(
                 chart -> {
-                    ChartDto chartDto = new ChartDto();
-                    chartDto.setUserId(chart.getUserId());
-                    chartDto.setKeywordId(chart.getKeywordId());
-                    chartDto.setEndDate(chart.getEndDate());
-                    chartDto.setPeriodSec(chart.getPeriodSec());
-                    chartDto.setStartDate(chart.getStartDate());
-                    chartDtoList.add(chartDto);
+                    String keyword = keywordDao.findById(chart.getKeywordId()).getKeyword();
+                    System.out.println("Keyword: " + keyword);
+                    ChartDtoKeyword chartDtoKeyword = new ChartDtoKeyword();
+                    chartDtoKeyword.setUserId(chart.getUserId());
+                    chartDtoKeyword.setKeyword(keyword);
+                    chartDtoKeyword.setEndDate(chart.getEndDate());
+                    chartDtoKeyword.setPeriodSec(chart.getPeriodSec());
+                    chartDtoKeyword.setStartDate(chart.getStartDate());
+                    chartDtoKeywordList.add(chartDtoKeyword);
                 });
-        return chartDtoList;
+        return chartDtoKeywordList;
     }
 
 }
