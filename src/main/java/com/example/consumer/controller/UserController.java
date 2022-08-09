@@ -30,28 +30,29 @@ public class UserController {
     public ResponseEntity<Map<String, Object>> webRegister(@RequestParam String email,
                                                            @RequestParam String password,
                                                            HttpServletResponse response) {
-        log.info("Regiseter - 호출");
+        log.info("Register - 호출");
+        log.info("{}, {}", email, password);
 
-        UserDto userDto = new UserDto();
-        userDto.setEmail(email);
-        userDto.setPassword(password);
-
-        log.info("{}, {}", userDto.getEmail(), userDto.getPassword());
-
-        return userService.register(userDto);
-
+        return userService.register(
+                UserDto.builder()
+                .password(password)
+                .email(email)
+                .build()
+        );
     }
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> webLogin(@RequestParam String email,
                                                         @RequestParam String password) {
         log.info("Login - 호출");
+        log.info("{}, {}", email, password);
 
-        UserDto userDto = new UserDto();
-        userDto.setEmail(email);
-        userDto.setPassword(password);
-
-        return userService.login(userDto);
+        return userService.login(
+                UserDto.builder()
+                .password(password)
+                .email(email)
+                .build()
+        );
     }
 
 }

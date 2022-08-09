@@ -11,5 +11,5 @@ import java.util.Map;
 public interface ChartService {
     ResponseEntity<Map<String, Object>> addChart(ChartDto chartDto);
 
-    List<ChartDtoKeyword> loadChart(String userId);
+    List<ChartDtoKeyword> loadChart(int userId);
 }

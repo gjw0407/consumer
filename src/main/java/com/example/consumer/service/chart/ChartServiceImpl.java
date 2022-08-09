@@ -34,14 +34,13 @@ public class ChartServiceImpl implements ChartService{
     }
 
     @Override
-    public List<ChartDtoKeyword> loadChart(String email) {
-        User user = userDao.findByEmail(email);
-        int userId = user.getUserId();
-        List<Chart> chartList = chartDao.findAllByUserId(userId);
+    public List<ChartDtoKeyword> loadChart(int emailId) {
+
+        List<Chart> chartList = chartDao.findAllByUserId(emailId);
         List<ChartDtoKeyword> chartDtoKeywordList = new ArrayList<>();
 
         // ChartDtoKeyword
-        chartList.stream().forEach(
+        chartList.forEach(
                 chart -> {
                     String keyword = keywordDao.findById(chart.getKeywordId()).getKeyword();
                     System.out.println("Keyword: " + keyword);

@@ -35,10 +35,11 @@ public class ChartController {
 
     @GetMapping("/chart/load")
     public List<ChartDtoKeyword> loadChart(HttpServletRequest request) {
-    	String email = jwtService.getEmail(request.getHeader("Access-Token"));
-        log.info("loading chart controller");
+        log.info("Controller - /chart/load");
+        String email = jwtService.getEmail(request.getHeader("Access-Token"));
+        int userId = userService.getUserId(email);
 
-        return chartService.loadChart(email); // 아래와 동일하게 userId 전달
+        return chartService.loadChart(userId);
 //        System.out.println(chartList.toString());
     }
 
@@ -53,22 +54,22 @@ public class ChartController {
         String email = jwtService.getEmail(request.getHeader("Access-Token"));
         int userId = userService.getUserId(email);
 
-        KeywordDto keywordDto = new KeywordDto();
-        keywordDto.setKeyword(keyword);
-
-        int keywordId = keywordService.addKeyword(keywordDto);
+        int keywordId = keywordService.addKeyword(
+                KeywordDto.builder()
+                .keyword(keyword)
+                .build());
 
         log.info("Regiseter - 호출");
 
-        ChartDto chartDto = new ChartDto();
-        chartDto.setKeywordId(keywordId);
-        chartDto.setUserId(userId);
-        chartDto.setPeriodSec(period);
-        chartDto.setStartDate(startDate);
-        chartDto.setEndDate(endDate);
-
         System.out.println(keyword + startDate + endDate + period + chartType);
 
-        return chartService.addChart(chartDto);
+        return chartService.addChart(
+                ChartDto.builder()
+                .keywordId(keywordId)
+                .userId(userId)
+                .periodSec(period)
+                .startDate(startDate)
+                .endDate(endDate)
+                .build());
     }
 }
