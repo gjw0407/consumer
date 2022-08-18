@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,10 +38,14 @@ public class UserServiceImpl implements UserService {
         // 로그인 성공했다면 토큰을 생성한다
         String token = jwtService.create(userDto); // TODO: 토큰예외 따로 처리
         log.info("로그인 토큰정보 : {}", token); // TODO: 토큰에서 로깅
-        // 토큰 정보는 response의 헤더로 보내고 나머지는 Map에 담는다
+        Date now = new Date();
+        System.out.println(jwtService.get(token).toString());
+        System.out.println(jwtService.get(token).get("exp").getClass().getName());
+        System.out.println(jwtService.get(token).get("exp"));
+        System.out.println(now.getTime());
+        System.out.println(now.getTime());        // 토큰 정보는 response의 헤더로 보내고 나머지는 Map에 담는다
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("auth-token", token);
-        resultMap.put("user-email", userDto.getEmail());
         log.info("로그인 성공");
         HttpStatus status = HttpStatus.ACCEPTED;
 

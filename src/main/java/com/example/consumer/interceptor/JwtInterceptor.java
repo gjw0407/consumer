@@ -1,6 +1,7 @@
 package com.example.consumer.interceptor;
 
 import com.example.consumer.dao.UserDao;
+import com.example.consumer.model.UserDto;
 import com.example.consumer.service.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 @Slf4j
 @CrossOrigin(origins = "*")
@@ -22,6 +24,8 @@ public class JwtInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         log.info("JwtInterceptor - " + request.getMethod() + " : " + request.getServletPath());
+
+        // TODO 만료 시간 연장 HTTP
 
         String requestURI = request.getRequestURI();
 
@@ -41,6 +45,16 @@ public class JwtInterceptor implements HandlerInterceptor {
                 // 유효한 토큰이면 진행, 그렇지 않으면 예외를 발생시킨다.
                 log.info("Checking token authenticity");
                 if (jwtService.checkValid(token)) {
+                    // 여기서 http 필드를 봐서, last 가 5분 이내면 토큰 다시 만들어주던가, 연장만하던그ㅡㅡ
+                    Date now = new Date();
+//                    if ((long)jwtService.get(token).get("exp") - now.getTime()/1000 < 300) {
+//                        String newToken = jwtService.create(
+//                                UserDto.builder()
+//                                        .email(jwtService.getEmail(token))
+//                                        .build()
+//                        );
+//                    }
+
                     return true;
                 }
                 else {
