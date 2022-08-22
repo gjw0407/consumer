@@ -5,17 +5,16 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ConsumerErrorCode {
+public enum InterceptorErrorCode {
 
+    // 만료된 토큰
+    TOKEN_EXPIRED("만료된 토큰입니다"),
     
-    // 로그인
-    LOGIN_ERROR("아이디 혹은 비밀번호가 잘못되었습니다"),
-    
-    // 회원가입
-    REGISTER_DUPLICATE_EMAIL("중복되는 이메일 입니다"),
-    
-    // 차트
-    CHART_NO_KEYWORD("키워드가 없습니다"),
+    // 토큰 갱신
+    TOKEN_REFRESH("토큰 갱신이 필요합니다"), // 실제로 message : TOKEN으로 보낼거임
+
+    // 토큰 비어있음
+    TOKEN_EMPTY("토큰이 비어있습니다"),
     
     // 기타
     INVALID_REQUEST("잘못된 값이 요청되었습니다"),
