@@ -52,12 +52,15 @@ public class JwtInterceptor implements HandlerInterceptor {
                 if (jwtService.checkValid(token)) {
                     // 여기서 http 필드를 봐서, last 가 5분 이내면 토큰 다시 만들어주던가, 연장만하던그ㅡㅡ
                     Date now = new Date();
-                    if ((long)jwtService.get(token).get("exp") - now.getTime()/1000 < 300) { // 5분 이내
+                    log.info(String.valueOf(jwtService.get(token).get("exp")));
+                    log.info(String.valueOf(now.getTime()/1000));
+                    if (Long.parseLong(String.valueOf(jwtService.get(token).get("exp"))) - now.getTime()/1000 < 540) { // 5분 이내
+
                         String newToken = jwtService.create(
                                 UserDto.builder()
                                         .email(jwtService.getEmail(token))
                                         .build()
-                        );
+                                );
                         throw new InterceptorException(InterceptorErrorCode.TOKEN_REFRESH, newToken);
                     }
 

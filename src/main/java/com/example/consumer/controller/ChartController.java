@@ -40,7 +40,6 @@ public class ChartController {
         int userId = userService.getUserId(email);
 
         return chartService.loadChart(userId);
-//        System.out.println(chartList.toString());
     }
 
     @PostMapping("/chart/")

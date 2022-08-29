@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JwtServiceImpl implements JwtService {
 	
-    private Long expireMin = 1L; // 분
+    private Long expireMin = 10L; // 분
 
     // 로그인 성공시 사용자 정보를 기반으로 JWTToken을 생성하여 반환.
     @Override
